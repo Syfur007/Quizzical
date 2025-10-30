@@ -25,7 +25,7 @@ class HomeScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         gradient: LinearGradient(
-                          colors: [Theme.of(context).primaryColor, Theme.of(context).primaryColor.withOpacity(0.85)],
+                          colors: [Theme.of(context).primaryColor, Theme.of(context).primaryColor.withValues(alpha: 0.85)],
                         ),
                         boxShadow: const [
                           BoxShadow(

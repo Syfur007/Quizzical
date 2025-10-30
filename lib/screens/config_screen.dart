@@ -36,7 +36,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
               Container(
                 height: 160,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.08),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Column(
@@ -91,7 +91,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
               Text('Difficulty', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                value: difficulty,
+                initialValue: difficulty,
                 decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
                 items: [
                   DropdownMenuItem(value: 'easy', child: Text('Easy')),
@@ -107,7 +107,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
               Text('Question Type', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
               const SizedBox(height: 8),
               DropdownButtonFormField<String>(
-                value: type,
+                initialValue: type,
                 decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(12))),
                 items: [
                   DropdownMenuItem(value: 'multiple', child: Text('Multiple Choice')),

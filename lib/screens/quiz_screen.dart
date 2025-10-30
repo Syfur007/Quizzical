@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'results_screen.dart';
 import '../utils/api.dart';
-import '../utils/html_decode.dart';
+import 'package:html_character_entities/html_character_entities.dart';
 
 class QuizScreen extends StatefulWidget {
   final int categoryId;
@@ -56,10 +56,10 @@ class _QuizScreenState extends State<QuizScreen> {
 
       // Normalize and decode HTML entities
       questions = raw.map<Map<String, dynamic>>((q) {
-        final incorrect = (q['incorrect_answers'] as List).map((e) => decodeHTML(e as String)).toList();
+        final incorrect = (q['incorrect_answers'] as List).map((e) => HtmlCharacterEntities.decode(e as String)).toList();
         return {
-          'question': decodeHTML(q['question'] as String),
-          'correct_answer': decodeHTML(q['correct_answer'] as String),
+          'question': HtmlCharacterEntities.decode(q['question'] as String),
+          'correct_answer': HtmlCharacterEntities.decode(q['correct_answer'] as String),
           'incorrect_answers': incorrect,
         };
       }).toList();
@@ -232,7 +232,7 @@ class _QuizScreenState extends State<QuizScreen> {
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
-                      color: Theme.of(context).primaryColor.withOpacity(0.08),
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.08),
                       spreadRadius: 2,
                       blurRadius: 8,
                       offset: const Offset(0, 4),
@@ -287,7 +287,7 @@ class _QuizScreenState extends State<QuizScreen> {
                         border: _getOptionBorder(option),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
+                            color: Colors.grey.withValues(alpha: 0.2),
                             spreadRadius: 1,
                             blurRadius: 4,
                             offset: const Offset(0, 2),
@@ -306,7 +306,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     ),
                   ),
                 );
-              }).toList(),
+              }),
 
               const SizedBox(height: 16),
 
