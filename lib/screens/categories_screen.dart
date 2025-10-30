@@ -51,10 +51,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 
   Widget _buildCategoryTile(BuildContext context, Map<String, dynamic> category) {
-    // Create a simple hero image using gradient + icon. Use category id to vary color.
+    // Show a compact icon-based tile: small circular icon + category name
     final int id = category['id'] ?? 0;
-    final Color start = Colors.primaries[id % Colors.primaries.length].shade700;
-    final Color end = Colors.primaries[(id + 3) % Colors.primaries.length].shade400;
+    final String name = (category['name'] ?? 'Category').toString();
+    final Color color = Colors.primaries[id % Colors.primaries.length].shade600;
 
     return GestureDetector(
       onTap: () => Navigator.push(
@@ -64,45 +64,41 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         ),
       ),
       child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Slightly smaller hero image (reduced flex and constraints)
-            Expanded(
-              flex: 2,
-              child: Container(
-                constraints: BoxConstraints(minHeight: 70),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [start, end]),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(16),
-                    topRight: Radius.circular(16),
+        elevation: 3,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: SizedBox.expand(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 56,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    color: color,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Center(
+                    child: Icon(
+                      Icons.category,
+                      color: Colors.white,
+                      size: 26,
+                    ),
                   ),
                 ),
-                child: Center(
-                  child: Icon(
-                    Icons.category,
-                    size: 44,
-                    color: Colors.white,
-                  ),
+                const SizedBox(height: 8),
+                Text(
+                  name,
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
                 ),
-              ),
+              ],
             ),
-
-            // Slightly larger title but still compact
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 6.0),
-              child: Text(
-                category['name'] ?? 'Unknown',
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 14.5),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -176,10 +172,16 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     ? Center(child: CircularProgressIndicator(color: Theme.of(context).primaryColor))
                     : GridView.builder(
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: MediaQuery.of(context).size.width > 600 ? 4 : 2,
-                          crossAxisSpacing: 12,
-                          mainAxisSpacing: 12,
-                          childAspectRatio: 3 / 4,
+                          crossAxisCount: (MediaQuery.of(context).size.width > 1000)
+                              ? 6
+                              : (MediaQuery.of(context).size.width > 700)
+                                  ? 4
+                                  : (MediaQuery.of(context).size.width > 480)
+                                      ? 3
+                                      : 2,
+                          crossAxisSpacing: 8,
+                          mainAxisSpacing: 8,
+                          childAspectRatio: 0.85,
                         ),
                         itemCount: _filteredCategories.length,
                         itemBuilder: (context, index) {
