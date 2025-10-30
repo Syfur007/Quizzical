@@ -131,6 +131,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
                           amount: amount,
                           difficulty: difficulty,
                           type: type,
+                          categoryName: widget.categoryName, // pass category name through
                         ),
                       ),
                     );

@@ -8,6 +8,7 @@ class QuizScreen extends StatefulWidget {
   final int amount;
   final String difficulty;
   final String type;
+  final String? categoryName; // added optional categoryName
 
   const QuizScreen({
     super.key,
@@ -15,6 +16,7 @@ class QuizScreen extends StatefulWidget {
     required this.amount,
     required this.difficulty,
     required this.type,
+    this.categoryName,
   });
 
   @override
@@ -147,18 +149,18 @@ class _QuizScreenState extends State<QuizScreen> {
 
   Border _getOptionBorder(String option) {
     if (!answered) {
-      return Border.all(color: Colors.grey.shade300, width: 2);
+      return Border.all(color: Colors.grey.shade300, width: 1, strokeAlign: BorderSide.strokeAlignCenter);
     }
 
     String correctAnswer = questions[currentQuestionIndex]['correct_answer'];
 
     if (option == correctAnswer) {
-      return Border.all(color: Colors.green, width: 3);
+      return Border.all(color: Colors.green, width: 3, strokeAlign: BorderSide.strokeAlignCenter);
     } else if (option == selectedAnswer && option != correctAnswer) {
-      return Border.all(color: Colors.red, width: 3);
+      return Border.all(color: Colors.red, width: 3, strokeAlign: BorderSide.strokeAlignCenter);
     }
 
-    return Border.all(color: Colors.grey.shade300, width: 2);
+    return Border.all(color: Colors.grey.shade300, width: 1, strokeAlign: BorderSide.strokeAlignCenter);
   }
 
   @override
@@ -209,132 +211,152 @@ class _QuizScreenState extends State<QuizScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Question ${currentQuestionIndex + 1}/${questions.length}',
-          style: const TextStyle(fontWeight: FontWeight.bold),
+        // Replace the previous title with a back button and the category name
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
         ),
+        title: Text(widget.categoryName ?? 'Category'),
         backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Question Container
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(24.0),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Theme.of(context).primaryColor.withValues(alpha: 0.08),
-                      spreadRadius: 2,
-                      blurRadius: 8,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Text(
-                      question['question'],
-                      style: const TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black87,
-                        height: 1.5,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 16),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    // Progress bar showing current question / total
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Icon(Icons.star, color: Colors.amber, size: 20),
-                        const SizedBox(width: 8),
                         Text(
-                          'Score: $score',
+                          'Question ${currentQuestionIndex + 1}/${questions.length}',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
                             color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: LinearProgressIndicator(
+                            value: questions.isNotEmpty ? (currentQuestionIndex + 1) / questions.length : 0.0,
+                            minHeight: 12,
+                            valueColor: AlwaysStoppedAnimation(Theme.of(context).primaryColor),
+                            backgroundColor: Colors.grey.shade300,
                           ),
                         ),
                       ],
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 32),
 
-              // Options
-              ...allOptions.map((option) {
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
-                  child: GestureDetector(
-                    onTap: () => _selectAnswer(option),
-                    child: Container(
+                    const SizedBox(height: 24),
+
+                    // Question Container
+                    Container(
                       width: double.infinity,
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(24.0),
                       decoration: BoxDecoration(
-                        color: _getOptionColor(option),
-                        borderRadius: BorderRadius.circular(12),
-                        border: _getOptionBorder(option),
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withValues(alpha: 0.2),
-                            spreadRadius: 1,
-                            blurRadius: 4,
+                            color: Theme.of(context).primaryColor.withValues(alpha: 0.18),
+                            spreadRadius: 2,
+                            blurRadius: 8,
                             offset: const Offset(0, 2),
                           ),
                         ],
                       ),
-                      child: Text(
-                        option,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black87,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Text(
+                          question['question'],
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87,
+                            height: 1.5,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
                       ),
                     ),
-                  ),
-                );
-              }),
 
-              const SizedBox(height: 16),
+                    const SizedBox(height: 50),
 
-              // Next/Finish Button (always visible)
-              ElevatedButton(
-                onPressed: _nextQuestion,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor,
-                  foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 4,
-                ),
-                child: Text(
-                  // If the user has answered the question show Next/Finish, otherwise show Skip
-                  answered
-                      ? (currentQuestionIndex < questions.length - 1 ? 'Next Question' : 'Finish Quiz')
-                      : 'Skip',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                    // Options
+                    ...allOptions.map((option) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 16.0),
+                        child: GestureDetector(
+                          onTap: () => _selectAnswer(option),
+                          child: Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: BoxDecoration(
+                              color: _getOptionColor(option),
+                              borderRadius: BorderRadius.circular(25),
+                              border: _getOptionBorder(option),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withValues(alpha: 0.02),
+                                  spreadRadius: 2,
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Text(
+                              option,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black87,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ],
                 ),
               ),
-            ],
-          ),
+            ),
+
+            const SizedBox(height: 16),
+
+            // Next/Finish Button (always visible)
+            ElevatedButton(
+              onPressed: _nextQuestion,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).primaryColor,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                elevation: 4,
+              ),
+              child: Text(
+                // If the user has answered the question show Next/Finish, otherwise show Skip
+                answered
+                    ? (currentQuestionIndex < questions.length - 1 ? 'Next Question' : 'Finish Quiz')
+                    : 'Skip',
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
