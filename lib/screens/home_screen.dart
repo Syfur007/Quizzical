@@ -7,81 +7,89 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Colors.purple.shade600, Colors.pink.shade500, Colors.red.shade500],
-          ),
-        ),
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.all(24),
-            child: Card(
-              elevation: 20,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-              child: Container(
-                padding: EdgeInsets.all(40),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const SizedBox(height: 8),
+
+              Expanded(
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: 80,
-                      height: 80,
+                      width: 180,
+                      height: 180,
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [Colors.purple.shade600, Colors.pink.shade500],
-                        ),
                         shape: BoxShape.circle,
-                      ),
-                      child: Icon(Icons.emoji_events, size: 40, color: Colors.white),
-                    ),
-                    SizedBox(height: 24),
-                    Text(
-                      'Trivia Quest',
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.grey.shade800,
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Text(
-                      'Test your knowledge!',
-                      style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
-                    ),
-                    SizedBox(height: 40),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => CategoriesScreen()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 18),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                        elevation: 8,
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text('Start Quiz', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                          SizedBox(width: 8),
-                          Icon(Icons.arrow_forward),
+                        gradient: LinearGradient(
+                          colors: [Theme.of(context).primaryColor, Theme.of(context).primaryColor.withOpacity(0.85)],
+                        ),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 12,
+                            offset: Offset(0, 6),
+                          ),
                         ],
                       ),
+                      child: const Center(
+                        child: FlutterLogo(size: 96),
+                      ),
                     ),
-                    SizedBox(height: 24),
+
+                    const SizedBox(height: 28),
+
                     Text(
-                      'Powered by Open Trivia Database',
-                      style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
+                      'Quizzical',
+                      style: TextStyle(
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey.shade900,
+                        shadows: const [
+                          Shadow(
+                            color: Colors.black26,
+                            blurRadius: 6,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    Text(
+                      'Sharpen your mind. Compete, learn, and have fun!',
+                      style: TextStyle(fontSize: 16, color: Colors.grey.shade700),
+                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
               ),
-            ),
+
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const CategoriesScreen()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    elevation: 8,
+                    backgroundColor: Theme.of(context).primaryColor,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text('Get Started', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                ),
+              ),
+            ],
           ),
         ),
       ),

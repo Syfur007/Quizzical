@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 
 void main() {
-  runApp(TriviaQuizApp());
+  runApp(Quizzical());
 }
 
-class TriviaQuizApp extends StatelessWidget {
-  const TriviaQuizApp({super.key});
+class Quizzical extends StatelessWidget {
+  const Quizzical({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Trivia Quest',
+      title: 'Quizzical Adventure',
       theme: ThemeData(
         primarySwatch: Colors.purple,
+        scaffoldBackgroundColor: Colors.grey.shade50,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: const HomeScreen(),
