@@ -12,131 +12,154 @@ class ResultsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final percentage = ((score / total) * 100).round();
 
+    // Determine icon and color based on percentage
+    IconData heroIcon;
+    Color heroColor;
+    String resultMessage;
+
+    if (percentage >= 80) {
+      heroIcon = Icons.emoji_events;
+      heroColor = Colors.amber.shade600;
+      resultMessage = 'Excellent!';
+    } else if (percentage >= 60) {
+      heroIcon = Icons.thumb_up;
+      heroColor = Colors.green.shade600;
+      resultMessage = 'Good Job!';
+    } else if (percentage >= 40) {
+      heroIcon = Icons.sentiment_satisfied;
+      heroColor = Colors.blue.shade600;
+      resultMessage = 'Not Bad!';
+    } else {
+      heroIcon = Icons.sentiment_dissatisfied;
+      heroColor = Colors.orange.shade600;
+      resultMessage = 'Keep Trying!';
+    }
+
     return Scaffold(
-      body: Center(
+      body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(24),
-          child: Card(
-            elevation: 20,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            child: Padding(
-              padding: EdgeInsets.all(40),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 100,
-                    height: 100,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Theme.of(context).primaryColor, Theme.of(context).primaryColor.withOpacity(0.85)],
-                      ),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(Icons.emoji_events, size: 50, color: Colors.white),
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Hero icon based on percentage
+              Center(
+                child: Container(
+                  width: 120,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    color: heroColor,
+                    shape: BoxShape.circle,
                   ),
-                  SizedBox(height: 24),
-                  Text(
-                    'Quiz Complete!',
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    'Here are your results',
-                    style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
-                  ),
-                  SizedBox(height: 32),
-                  Container(
-                    padding: EdgeInsets.all(32),
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [Colors.purple.shade50, Colors.pink.shade50],
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          '$percentage%',
-                          style: TextStyle(
-                            fontSize: 60,
-                            fontWeight: FontWeight.bold,
-                            foreground: Paint()
-                              ..shader = LinearGradient(
-                                colors: [Colors.purple.shade600, Colors.pink.shade500],
-                              ).createShader(Rect.fromLTWH(0.0, 0.0, 200.0, 70.0)),
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          '$score out of $total correct',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 32),
-                  SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => CategoriesScreen()),
-                              (route) => false,
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 18),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                        elevation: 8,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.refresh),
-                          SizedBox(width: 8),
-                          Text('Play Again', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 12),
-                  SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed: () {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
-                              (route) => false,
-                        );
-                      },
-                      style: OutlinedButton.styleFrom(
-                        padding: EdgeInsets.symmetric(vertical: 18),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                        side: BorderSide(color: Colors.grey.shade300, width: 2),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.home, color: Colors.grey.shade700),
-                          SizedBox(width: 8),
-                          Text(
-                            'Back to Home',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey.shade700,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                  child: Icon(heroIcon, size: 60, color: Colors.white),
+                ),
               ),
-            ),
+
+              const SizedBox(height: 24),
+
+              // Result message
+              Text(
+                resultMessage,
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.grey.shade900),
+                textAlign: TextAlign.center,
+              ),
+
+              const SizedBox(height: 8),
+
+              Text(
+                'Quiz Complete!',
+                style: TextStyle(fontSize: 18, color: Colors.grey.shade600),
+                textAlign: TextAlign.center,
+              ),
+
+              const SizedBox(height: 32),
+
+              // Score display
+              Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      '$percentage%',
+                      style: TextStyle(
+                        fontSize: 60,
+                        fontWeight: FontWeight.bold,
+                        color: heroColor,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      '$score out of $total correct',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey.shade800),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 32),
+
+              // Play Again button
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const CategoriesScreen()),
+                    (route) => false,
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  elevation: 4,
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.refresh),
+                    SizedBox(width: 8),
+                    Text('Play Again', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              // Back to Home button
+              OutlinedButton(
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                    (route) => false,
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  side: BorderSide(color: Colors.grey.shade300, width: 2),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.home, color: Colors.grey.shade700),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Back to Home',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey.shade700,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),

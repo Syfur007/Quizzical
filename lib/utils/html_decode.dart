@@ -6,4 +6,3 @@ String decodeHTML(String text) {
       .replaceAll('&lt;', '<')
       .replaceAll('&gt;', '>');
 }
-
