@@ -9,6 +9,7 @@ class QuizScreen extends StatefulWidget {
   final String difficulty;
   final String type;
   final String? categoryName; // added optional categoryName
+  final Color? categoryColor; // added optional categoryColor
 
   const QuizScreen({
     super.key,
@@ -17,6 +18,7 @@ class QuizScreen extends StatefulWidget {
     required this.difficulty,
     required this.type,
     this.categoryName,
+    this.categoryColor,
   });
 
   @override
@@ -109,7 +111,7 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
-  void _nextQuestion() {
+  void _handleNextPressed() {
     if (currentQuestionIndex < questions.length - 1) {
       setState(() {
         currentQuestionIndex++;
@@ -163,13 +165,70 @@ class _QuizScreenState extends State<QuizScreen> {
     return Border.all(color: Colors.grey.shade300, width: 1, strokeAlign: BorderSide.strokeAlignCenter);
   }
 
+  // New helper: returns the circular checkbox icon for an option
+  Widget _buildOptionIcon(String option) {
+    const double size = 28.0;
+
+    // If questions aren't loaded yet or not answered, show neutral outline
+    if (!answered || questions.isEmpty) {
+      return Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.grey.shade300, width: 1.5),
+        ),
+      );
+    }
+
+    final String correctAnswer = questions[currentQuestionIndex]['correct_answer'];
+
+    // Correct answer: green filled circle with check
+    if (option == correctAnswer) {
+      return Container(
+        width: size,
+        height: size,
+        decoration: const BoxDecoration(
+          color: Colors.green,
+          shape: BoxShape.circle,
+        ),
+        child: const Icon(Icons.check, size: 18, color: Colors.white),
+      );
+    }
+
+    // Selected incorrect answer: red filled circle with cross
+    if (option == selectedAnswer && option != correctAnswer) {
+      return Container(
+        width: size,
+        height: size,
+        decoration: const BoxDecoration(
+          color: Colors.red,
+          shape: BoxShape.circle,
+        ),
+        child: const Icon(Icons.close, size: 18, color: Colors.white),
+      );
+    }
+
+    // Unselected/neutral option after answering
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: Colors.grey.shade300, width: 1.5),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final accent = widget.categoryColor ?? Theme.of(context).primaryColor;
+
     if (loading) {
       return Scaffold(
         appBar: AppBar(
           title: const Text('Loading Quiz...'),
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: accent,
           elevation: 0,
         ),
         body: const Center(child: CircularProgressIndicator()),
@@ -180,7 +239,7 @@ class _QuizScreenState extends State<QuizScreen> {
       return Scaffold(
         appBar: AppBar(
           title: const Text('Quiz'),
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: accent,
           elevation: 0,
         ),
         body: Center(
@@ -217,7 +276,7 @@ class _QuizScreenState extends State<QuizScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(widget.categoryName ?? 'Category'),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: accent,
         foregroundColor: Colors.white,
         elevation: 0,
       ),
@@ -249,7 +308,7 @@ class _QuizScreenState extends State<QuizScreen> {
                           child: LinearProgressIndicator(
                             value: questions.isNotEmpty ? (currentQuestionIndex + 1) / questions.length : 0.0,
                             minHeight: 12,
-                            valueColor: AlwaysStoppedAnimation(Theme.of(context).primaryColor),
+                            valueColor: AlwaysStoppedAnimation(accent),
                             backgroundColor: Colors.grey.shade300,
                           ),
                         ),
@@ -313,14 +372,26 @@ class _QuizScreenState extends State<QuizScreen> {
                                 ),
                               ],
                             ),
-                            child: Text(
-                              option,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black87,
-                              ),
-                              textAlign: TextAlign.center,
+                            child: Row(
+                              children: [
+                                // Circular checkbox icon (moved to helper)
+                                _buildOptionIcon(option),
+
+                                const SizedBox(width: 12),
+
+                                // Option text
+                                Expanded(
+                                  child: Text(
+                                    option,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black87,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -335,9 +406,9 @@ class _QuizScreenState extends State<QuizScreen> {
 
             // Next/Finish Button (always visible)
             ElevatedButton(
-              onPressed: _nextQuestion,
+              onPressed: _handleNextPressed,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).primaryColor,
+                backgroundColor: accent,
                 foregroundColor: Colors.white,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(

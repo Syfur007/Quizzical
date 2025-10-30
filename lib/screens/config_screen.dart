@@ -4,8 +4,9 @@ import 'quiz_screen.dart';
 class ConfigScreen extends StatefulWidget {
   final int categoryId;
   final String? categoryName;
+  final Color? categoryColor; // added optional categoryColor
 
-  const ConfigScreen({super.key, required this.categoryId, this.categoryName});
+  const ConfigScreen({super.key, required this.categoryId, this.categoryName, this.categoryColor});
 
   @override
   State<ConfigScreen> createState() => _ConfigScreenState();
@@ -20,10 +21,14 @@ class _ConfigScreenState extends State<ConfigScreen> {
   Widget build(BuildContext context) {
     final displayName = widget.categoryName ?? 'Category';
 
+    final accent = widget.categoryColor ?? Theme.of(context).primaryColor;
+    final accentForeground = accent.computeLuminance() > 0.5 ? Colors.black : Colors.white;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(displayName),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: accent,
+        foregroundColor: accentForeground,
         elevation: 0,
       ),
       body: SafeArea(
@@ -36,7 +41,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
               Container(
                 height: 160,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withValues(alpha: 0.08),
+                  color: accent.withAlpha((0.08 * 255).round()),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Column(
@@ -44,8 +49,8 @@ class _ConfigScreenState extends State<ConfigScreen> {
                   children: [
                     CircleAvatar(
                       radius: 36,
-                      backgroundColor: Theme.of(context).primaryColor,
-                      child: Icon(Icons.category, size: 36, color: Colors.white),
+                      backgroundColor: accent,
+                      child: Icon(Icons.category, size: 36, color: accentForeground),
                     ),
                     const SizedBox(height: 12),
                     Text(
@@ -70,6 +75,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
                       divisions: 49,
                       value: amount.toDouble(),
                       label: amount.toString(),
+                      activeColor: accent,
                       onChanged: (v) => setState(() => amount = v.round()),
                     ),
                   ),
@@ -78,7 +84,7 @@ class _ConfigScreenState extends State<ConfigScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
                       color: Colors.grey.shade200,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(100),
                     ),
                     child: Text('$amount'),
                   ),
@@ -132,11 +138,13 @@ class _ConfigScreenState extends State<ConfigScreen> {
                           difficulty: difficulty,
                           type: type,
                           categoryName: widget.categoryName, // pass category name through
+                          categoryColor: widget.categoryColor, // pass category color through
                         ),
                       ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
+                    backgroundColor: accent,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     elevation: 6,
