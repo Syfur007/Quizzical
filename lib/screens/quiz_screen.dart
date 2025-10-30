@@ -310,29 +310,29 @@ class _QuizScreenState extends State<QuizScreen> {
 
               const SizedBox(height: 16),
 
-              // Next/Finish Button
-              if (answered)
-                ElevatedButton(
-                  onPressed: _nextQuestion,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Theme.of(context).primaryColor,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 4,
+              // Next/Finish Button (always visible)
+              ElevatedButton(
+                onPressed: _nextQuestion,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).primaryColor,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Text(
-                    currentQuestionIndex < questions.length - 1
-                        ? 'Next Question'
-                        : 'Finish Quiz',
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  elevation: 4,
+                ),
+                child: Text(
+                  // If the user has answered the question show Next/Finish, otherwise show Skip
+                  answered
+                      ? (currentQuestionIndex < questions.length - 1 ? 'Next Question' : 'Finish Quiz')
+                      : 'Skip',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
+              ),
             ],
           ),
         ),
