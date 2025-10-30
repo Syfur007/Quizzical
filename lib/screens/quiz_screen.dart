@@ -22,6 +22,7 @@ class _QuizScreenState extends State<QuizScreen> {
   bool isLoading = true;
   String? selectedAnswer;
   bool hasAnswered = false;
+  List<String> currentAnswers = [];
 
   @override
   void initState() {
@@ -39,7 +40,15 @@ class _QuizScreenState extends State<QuizScreen> {
     setState(() {
       questions = data;
       isLoading = false;
+      if (questions.isNotEmpty) {
+        _shuffleCurrentAnswers();
+      }
     });
+  }
+
+  void _shuffleCurrentAnswers() {
+    final question = questions[currentQuestion];
+    currentAnswers = [...question['incorrect_answers'], question['correct_answer']]..shuffle();
   }
 
   void handleAnswer(String answer) {
@@ -61,6 +70,7 @@ class _QuizScreenState extends State<QuizScreen> {
         currentQuestion++;
         selectedAnswer = null;
         hasAnswered = false;
+        _shuffleCurrentAnswers();
       });
     } else {
       Navigator.pushReplacement(
@@ -120,7 +130,6 @@ class _QuizScreenState extends State<QuizScreen> {
     }
 
     final question = questions[currentQuestion];
-    final allAnswers = [...question['incorrect_answers'], question['correct_answer']]..shuffle();
 
     return Scaffold(
       appBar: AppBar(
@@ -207,9 +216,9 @@ class _QuizScreenState extends State<QuizScreen> {
               // Options
               Expanded(
                 child: ListView.builder(
-                  itemCount: allAnswers.length,
+                  itemCount: currentAnswers.length,
                   itemBuilder: (context, index) {
-                    final answer = allAnswers[index];
+                    final answer = currentAnswers[index];
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 12),
                       child: InkWell(
