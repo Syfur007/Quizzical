@@ -60,7 +60,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ConfigScreen(categoryId: category['id']),
+          builder: (context) => ConfigScreen(categoryId: category['id'], categoryName: name),
         ),
       ),
       child: Card(
