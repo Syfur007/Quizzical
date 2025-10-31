@@ -17,7 +17,6 @@ class ResultsScreen extends StatelessWidget {
     Color heroColor;
     String resultMessage;
     String scoreQuote;
-    Color resultColor;
     Color resultBgColor;
 
     if (percentage >= 80) {
@@ -25,30 +24,26 @@ class ResultsScreen extends StatelessWidget {
       heroColor = Colors.amber.shade600;
       resultMessage = 'Excellent!';
       scoreQuote = "You're crushing it! Try another round to beat your own score and make this streak official.";
-      resultColor = Colors.grey.shade100;
       resultBgColor = Colors.green.shade600;
     } else if (percentage >= 60) {
       heroIcon = Icons.thumb_up;
       heroColor = Colors.green.shade600;
       resultMessage = 'Good Job!';
       scoreQuote = "You're on the right track! Take another quiz to sharpen your skills and see how much further you can go.";
-      resultColor = Colors.amber.shade800;
-      resultBgColor = Colors.green.shade600;
+      resultBgColor = Colors.blue;
 
     } else if (percentage >= 40) {
       heroIcon = Icons.sentiment_satisfied;
       heroColor = Colors.blue.shade600;
       resultMessage = 'Not Bad!';
       scoreQuote = "Every attempt gets you better. Play again now and turn today's progress into tomorrow's victory!";
-      resultColor = Colors.grey.shade800;
-      resultBgColor = Colors.orange.shade600;
+      resultBgColor = Colors.orange;
     } else {
       heroIcon = Icons.sentiment_dissatisfied;
       heroColor = Colors.orange.shade600;
       resultMessage = 'Keep Trying!';
       scoreQuote = "Don't give up! Progress comes from trying, learn from this one, and come back stronger!";
-      resultColor = Colors.grey.shade100;
-      resultBgColor = Colors.red.shade600;
+      resultBgColor = Colors.red;
     }
 
     return Scaffold(
@@ -113,7 +108,7 @@ class ResultsScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 50,
                               fontWeight: FontWeight.bold,
-                              color: resultColor,
+                              color: Colors.grey.shade100,
                             ),
                           ),
                         ],
