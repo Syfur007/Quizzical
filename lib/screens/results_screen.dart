@@ -16,23 +16,39 @@ class ResultsScreen extends StatelessWidget {
     IconData heroIcon;
     Color heroColor;
     String resultMessage;
+    String scoreQuote;
+    Color resultColor;
+    Color resultBgColor;
 
     if (percentage >= 80) {
       heroIcon = Icons.emoji_events;
       heroColor = Colors.amber.shade600;
       resultMessage = 'Excellent!';
+      scoreQuote = "You're crushing it! Try another round to beat your own score and make this streak official.";
+      resultColor = Colors.grey.shade100;
+      resultBgColor = Colors.green.shade600;
     } else if (percentage >= 60) {
       heroIcon = Icons.thumb_up;
       heroColor = Colors.green.shade600;
       resultMessage = 'Good Job!';
+      scoreQuote = "You're on the right track! Take another quiz to sharpen your skills and see how much further you can go.";
+      resultColor = Colors.amber.shade800;
+      resultBgColor = Colors.green.shade600;
+
     } else if (percentage >= 40) {
       heroIcon = Icons.sentiment_satisfied;
       heroColor = Colors.blue.shade600;
       resultMessage = 'Not Bad!';
+      scoreQuote = "Every attempt gets you better. Play again now and turn today's progress into tomorrow's victory!";
+      resultColor = Colors.grey.shade800;
+      resultBgColor = Colors.orange.shade600;
     } else {
       heroIcon = Icons.sentiment_dissatisfied;
       heroColor = Colors.orange.shade600;
       resultMessage = 'Keep Trying!';
+      scoreQuote = "Don't give up! Progress comes from trying, learn from this one, and come back stronger!";
+      resultColor = Colors.grey.shade100;
+      resultBgColor = Colors.red.shade600;
     }
 
     return Scaffold(
@@ -40,68 +56,86 @@ class ResultsScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Hero icon based on percentage
-              Center(
-                child: Container(
-                  width: 120,
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: heroColor,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(heroIcon, size: 60, color: Colors.white),
-                ),
-              ),
-
-              const SizedBox(height: 24),
-
-              // Result message
-              Text(
-                resultMessage,
-                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.grey.shade900),
-                textAlign: TextAlign.center,
-              ),
-
               const SizedBox(height: 8),
 
-              Text(
-                'Quiz Complete!',
-                style: TextStyle(fontSize: 18, color: Colors.grey.shade600),
-                textAlign: TextAlign.center,
-              ),
-
-              const SizedBox(height: 32),
-
-              // Score display
-              Container(
-                padding: const EdgeInsets.all(24),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  borderRadius: BorderRadius.circular(16),
-                ),
+              Expanded(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
-                      '$percentage%',
-                      style: TextStyle(
-                        fontSize: 60,
-                        fontWeight: FontWeight.bold,
-                        color: heroColor,
+                    Center(
+                      child: Container(
+                        width: 140,
+                        height: 140,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: BoxBorder.all(
+                            color: heroColor,
+                            width: 4,
+                          ),
+                        ),
+                        child: Icon(heroIcon, size: 80, color: heroColor),
                       ),
                     ),
-                    const SizedBox(height: 8),
+
+                    const SizedBox(height: 20),
+
+                    // Result message
                     Text(
-                      '$score out of $total correct',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.grey.shade800),
+                      resultMessage,
+                      style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.grey.shade900),
+                      textAlign: TextAlign.center,
                     ),
+
+                    const SizedBox(height: 32),
+
+                    // Score display
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: resultBgColor,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [
+                          BoxShadow(
+                            color: resultBgColor.withValues(alpha: 0.50),
+                            spreadRadius: 4,
+                            blurRadius: 4,
+                            offset: const Offset(0, 0),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          Text(
+                            '$percentage%',
+                            style: TextStyle(
+                              fontSize: 50,
+                              fontWeight: FontWeight.bold,
+                              color: resultColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(height: 44),
+                    // Small quote under the score
+                    Text(
+                      scoreQuote,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontStyle: FontStyle.italic,
+                        color: Colors.grey.shade800,
+                      ),
+                    ),
+
+                    const SizedBox(height: 32),
                   ],
                 ),
               ),
-
-              const SizedBox(height: 32),
 
               // Play Again and Back to Home buttons
               Row(
@@ -131,6 +165,7 @@ class ResultsScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 12),
+
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () {
