@@ -40,47 +40,56 @@ class _ConfigScreenState extends State<ConfigScreen> {
             children: [
               // Hero image (small) and category name
               Container(
-                height: 160,
+                constraints: BoxConstraints(minHeight: 140),
                 decoration: BoxDecoration(
                   color: accent.withAlpha((0.08 * 255).round()),
                   borderRadius: BorderRadius.circular(16),
                 ),
+                padding: const EdgeInsets.all(8),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Constrain the SVG so it scales and doesn't overflow
-                    SizedBox(
-                      width: 150,
-                      height: 150,
+                    Flexible(
+                      fit: FlexFit.loose,
+                      flex: 1,
                       child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: SvgPicture.asset(
-                          'assets/images/adjust-settings.svg',
-                          fit: BoxFit.contain,
-                          width: double.infinity,
-                          height: double.infinity,
+                        padding: const EdgeInsets.all(8.0),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                            height: 140,
+                            child: SvgPicture.asset(
+                              'assets/images/adjust-settings.svg',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
                         ),
                       ),
                     ),
-                    // Let the text/avatars take remaining space to avoid overflow
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: 36,
-                            backgroundColor: accent,
-                            child: Icon(Icons.category, size: 26, color: accentForeground),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            displayName,
-                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey.shade800),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
+
+                    Flexible(
+                      fit: FlexFit.loose,
+                      flex: 1,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              radius: 36,
+                              backgroundColor: accent,
+                              child: Icon(Icons.category, size: 26, color: accentForeground),
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              displayName,
+                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey.shade800),
+                              textAlign: TextAlign.center,
+                              softWrap: true,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
