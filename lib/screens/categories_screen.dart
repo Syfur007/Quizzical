@@ -50,7 +50,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     }).toList();
   }
 
-  Widget _buildCategoryTile(BuildContext context, Map<String, dynamic> category) {
+  Widget _buildCategoryTile(
+    BuildContext context,
+    Map<String, dynamic> category,
+  ) {
     // Show a compact icon-based tile: small circular icon + category name
     final int id = category['id'] ?? 0;
     final String name = (category['name'] ?? 'Category').toString();
@@ -60,7 +63,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       onTap: () => Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ConfigScreen(categoryId: category['id'], categoryName: name, categoryColor: color),
+          builder: (context) => ConfigScreen(
+            categoryId: category['id'],
+            categoryName: name,
+            categoryColor: color,
+          ),
         ),
       ),
       child: Card(
@@ -81,11 +88,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     shape: BoxShape.circle,
                   ),
                   child: Center(
-                    child: Icon(
-                      Icons.category,
-                      color: Colors.white,
-                      size: 26,
-                    ),
+                    child: Icon(Icons.category, color: Colors.white, size: 26),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -122,9 +125,14 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             controller: _searchController,
                             decoration: InputDecoration(
                               hintText: 'Search categories...',
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
                               isDense: true,
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 10,
+                              ),
                             ),
                           )
                         : Column(
@@ -132,12 +140,19 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                             children: [
                               Text(
                                 'Categories',
-                                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.grey.shade800),
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey.shade800,
+                                ),
                               ),
                               const SizedBox(height: 4),
                               Text(
                                 'Pick a topic and start your quiz',
-                                style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey.shade600,
+                                ),
                               ),
                             ],
                           ),
@@ -147,7 +162,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
                   // Search button (functional)
                   IconButton(
-                    icon: Icon(_isSearching ? Icons.clear : Icons.search, color: Colors.grey.shade700),
+                    icon: Icon(
+                      _isSearching ? Icons.clear : Icons.search,
+                      color: Colors.grey.shade700,
+                    ),
                     onPressed: () {
                       if (_isSearching) {
                         if (_searchController.text.isNotEmpty) {
@@ -169,23 +187,31 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: isLoading
-                    ? Center(child: CircularProgressIndicator(color: Theme.of(context).primaryColor))
+                    ? Center(
+                        child: CircularProgressIndicator(
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      )
                     : GridView.builder(
+                        padding: const EdgeInsets.only(bottom: 16),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: (MediaQuery.of(context).size.width > 1000)
+                          crossAxisCount:
+                              (MediaQuery.of(context).size.width > 1000)
                               ? 6
                               : (MediaQuery.of(context).size.width > 700)
-                                  ? 4
-                                  : (MediaQuery.of(context).size.width > 480)
-                                      ? 3
-                                      : 2,
+                              ? 4
+                              : (MediaQuery.of(context).size.width > 480)
+                              ? 3
+                              : 2,
                           crossAxisSpacing: 8,
                           mainAxisSpacing: 8,
                           childAspectRatio: 0.85,
                         ),
                         itemCount: _filteredCategories.length,
                         itemBuilder: (context, index) {
-                          final category = _filteredCategories[index] as Map<String, dynamic>;
+                          final category =
+                              _filteredCategories[index]
+                                  as Map<String, dynamic>;
                           return _buildCategoryTile(context, category);
                         },
                       ),

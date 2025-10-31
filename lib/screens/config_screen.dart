@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'quiz_screen.dart';
 
 class ConfigScreen extends StatefulWidget {
@@ -44,18 +45,43 @@ class _ConfigScreenState extends State<ConfigScreen> {
                   color: accent.withAlpha((0.08 * 255).round()),
                   borderRadius: BorderRadius.circular(16),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircleAvatar(
-                      radius: 36,
-                      backgroundColor: accent,
-                      child: Icon(Icons.category, size: 36, color: accentForeground),
+                    // Constrain the SVG so it scales and doesn't overflow
+                    SizedBox(
+                      width: 150,
+                      height: 150,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: SvgPicture.asset(
+                          'assets/images/adjust-settings.svg',
+                          fit: BoxFit.contain,
+                          width: double.infinity,
+                          height: double.infinity,
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 12),
-                    Text(
-                      displayName,
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.grey.shade800),
+                    // Let the text/avatars take remaining space to avoid overflow
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 36,
+                            backgroundColor: accent,
+                            child: Icon(Icons.category, size: 26, color: accentForeground),
+                          ),
+                          const SizedBox(height: 12),
+                          Text(
+                            displayName,
+                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.grey.shade800),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
