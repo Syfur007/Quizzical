@@ -21,71 +21,53 @@ This README describes the app, how to run it, and shows screenshots from the cur
 
 ## Screenshots
 
-Home
+<!-- Responsive thumbnails in rows; each image constrained so it won't take all vertical space -->
+<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;">
+  <figure style="flex: 1 1 220px; max-width:260px; margin:0;">
+    <img src="screenshot/android/home.png" alt="Home screenshot" style="width:100%;height:auto;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.08);" />
+    <figcaption style="font-size:13px;margin-top:6px;color:#444;">Home</figcaption>
+  </figure>
 
-![Home screenshot](screenshot/android/home.png)
+  <figure style="flex: 1 1 220px; max-width:260px; margin:0;">
+    <img src="screenshot/android/categories.png" alt="Categories screenshot" style="width:100%;height:auto;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.08);" />
+    <figcaption style="font-size:13px;margin-top:6px;color:#444;">Categories</figcaption>
+  </figure>
 
-Categories
+  <figure style="flex: 1 1 220px; max-width:260px; margin:0;">
+    <img src="screenshot/android/quiz_configure1.png" alt="Quiz configure 1" style="width:100%;height:auto;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.08);" />
+    <figcaption style="font-size:13px;margin-top:6px;color:#444;">Quiz configuration (1)</figcaption>
+  </figure>
 
-![Categories screenshot](screenshot/android/categories.png)
+  <figure style="flex: 1 1 220px; max-width:260px; margin:0;">
+    <img src="screenshot/android/quiz_configure2.png" alt="Quiz configure 2" style="width:100%;height:auto;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.08);" />
+    <figcaption style="font-size:13px;margin-top:6px;color:#444;">Quiz configuration (2)</figcaption>
+  </figure>
 
-Quiz configuration (example 1)
+  <figure style="flex: 1 1 220px; max-width:260px; margin:0;">
+    <img src="screenshot/android/correct_answer.png" alt="Correct answer" style="width:100%;height:auto;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.08);" />
+    <figcaption style="font-size:13px;margin-top:6px;color:#444;">Correct answer</figcaption>
+  </figure>
 
-![Quiz configure 1](screenshot/android/quiz_configure1.png)
+  <figure style="flex: 1 1 220px; max-width:260px; margin:0;">
+    <img src="screenshot/android/wrong_answer.png" alt="Wrong answer" style="width:100%;height:auto;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.08);" />
+    <figcaption style="font-size:13px;margin-top:6px;color:#444;">Wrong answer</figcaption>
+  </figure>
 
-Quiz configuration (example 2)
+  <figure style="flex: 1 1 220px; max-width:260px; margin:0;">
+    <img src="screenshot/android/score_excellent.png" alt="Score excellent" style="width:100%;height:auto;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.08);" />
+    <figcaption style="font-size:13px;margin-top:6px;color:#444;">Score — Excellent</figcaption>
+  </figure>
 
-![Quiz configure 2](screenshot/android/quiz_configure2.png)
+  <figure style="flex: 1 1 220px; max-width:260px; margin:0;">
+    <img src="screenshot/android/score_notbad.png" alt="Score not bad" style="width:100%;height:auto;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.08);" />
+    <figcaption style="font-size:13px;margin-top:6px;color:#444;">Score — Not bad</figcaption>
+  </figure>
 
-Correct answer feedback
-
-![Correct answer](screenshot/android/correct_answer.png)
-
-Wrong answer feedback
-
-![Wrong answer](screenshot/android/wrong_answer.png)
-
-Score — excellent
-
-![Score excellent](screenshot/android/score_excellent.png)
-
-Score — not bad
-
-![Score not bad](screenshot/android/score_notbad.png)
-
-Score — keep trying
-
-![Score keep trying](screenshot/android/score_keeptrying.png)
-
-> Note: If images do not display in your environment (for example some Git hosts require special handling), open the referenced files directly under `screenshot/android/`.
-
-## Getting started (development)
-
-Prerequisites: Flutter SDK installed and configured for your target platforms. See https://flutter.dev/docs/get-started/install.
-
-From the project root run:
-
-```bash
-flutter pub get
-flutter run
-```
-
-To run on a specific device/emulator:
-
-```bash
-flutter devices  # list devices
-flutter run -d <device-id>
-```
-
-If Android build fails due to a missing MainActivity on older projects, ensure `android/app/src/main/kotlin/com/example/quizzical/MainActivity.kt` exists with:
-
-```kotlin
-package com.example.quizzical
-
-import io.flutter.embedding.android.FlutterActivity
-
-class MainActivity : FlutterActivity()
-```
+  <figure style="flex: 1 1 220px; max-width:260px; margin:0;">
+    <img src="screenshot/android/score_keeptrying.png" alt="Score keep trying" style="width:100%;height:auto;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,0.08);" />
+    <figcaption style="font-size:13px;margin-top:6px;color:#444;">Score — Keep trying</figcaption>
+  </figure>
+</div>
 
 ## Contributing
 
