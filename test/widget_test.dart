@@ -13,7 +13,7 @@ import 'package:flutter_quiz/main.dart';
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const Quizzical());
+    await tester.pumpWidget(const Quizzee());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

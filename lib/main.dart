@@ -1,91 +1,115 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'screens/home_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
+import 'firebase_options.dart';
+import 'providers/auth_provider.dart';
+import 'providers/quiz_provider.dart';
+import 'providers/admin_provider.dart';
+import 'screens/auth_screen.dart';
+import 'screens/user_home_screen.dart';
+import 'screens/admin_home_screen.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runApp(Quizzical());
+
+  runApp(const Quizzee());
 }
 
-class Quizzical extends StatelessWidget {
-  const Quizzical({super.key});
+class Quizzee extends StatelessWidget {
+  const Quizzee({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Gaming-themed dark mode with vibrant neon accents
-    final primaryColor = const Color(0xFF00F5FF); // Cyan neon
-    final secondaryColor = const Color(0xFFFF006E); // Hot pink
-    final accentColor = const Color(0xFF8B5CF6); // Purple
-
-    final darkColorScheme = ColorScheme.dark(
-      primary: primaryColor,
-      secondary: secondaryColor,
-      surface: const Color(0xFF1A1A2E),
-      onPrimary: const Color(0xFF0F0F1E),
-      onSecondary: Colors.white,
-      onSurface: Colors.white,
-      error: const Color(0xFFFF006E),
-      tertiary: accentColor,
-    );
-
-    return MaterialApp(
-      title: 'Quizzical',
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: darkColorScheme,
-        scaffoldBackgroundColor: const Color(0xFF0F0F1E),
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        fontFamily: 'Roboto',
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.transparent,
-          foregroundColor: Colors.white,
-          elevation: 0,
-          centerTitle: true,
-          systemOverlayStyle: SystemUiOverlayStyle.light,
-        ),
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: primaryColor,
-            foregroundColor: const Color(0xFF0F0F1E),
-            padding: const EdgeInsets.symmetric(vertical: 18),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            elevation: 0,
-            textStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 0.5,
-            ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()),
+        ChangeNotifierProvider(create: (_) => QuizProvider()),
+        ChangeNotifierProvider(create: (_) => AdminProvider()),
+      ],
+      child: MaterialApp(
+        title: 'Quizzee',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color(0xFF6B21A8),
+            brightness: Brightness.light,
           ),
+          fontFamily: 'Roboto',
         ),
-        outlinedButtonTheme: OutlinedButtonThemeData(
-          style: OutlinedButton.styleFrom(
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 18),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            side: BorderSide(color: primaryColor.withValues(alpha: 0.5), width: 2),
-          ),
-        ),
-        cardTheme: CardThemeData(
-          elevation: 0,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          color: const Color(0xFF1A1A2E),
-        ),
-        textTheme: const TextTheme(
-          displayLarge: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          displayMedium: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          displaySmall: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          headlineLarge: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          headlineMedium: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          bodyLarge: TextStyle(color: Colors.white70),
-          bodyMedium: TextStyle(color: Colors.white70),
-        ),
+        home: const AuthWrapper(),
       ),
-      home: const HomeScreen(),
-      debugShowCheckedModeBanner: false,
     );
   }
 }
+
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final authProvider = context.watch<AuthProvider>();
+
+    // Show loading while checking auth state
+    if (authProvider.isInitializing) {
+      return Scaffold(
+        body: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Color(0xFF6B21A8), // Deep purple
+                Color(0xFF9333EA), // Purple
+                Color(0xFFA855F7), // Light purple
+              ],
+            ),
+          ),
+          child: const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                ),
+                SizedBox(height: 16),
+                Text(
+                  'Loading...',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    // Not authenticated - show auth screen
+    if (!authProvider.isAuthenticated) {
+      return const AuthScreen();
+    }
+
+    // Authenticated - route based on admin status
+    if (authProvider.isAdmin) {
+      return const AdminHomeScreen();
+    } else {
+      return const UserHomeScreen();
+    }
+  }
+}
+

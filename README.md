@@ -1,83 +1,319 @@
-# Quizzical
+# Quizzee - Flutter Quiz Application
 
-A lightweight, engaging Flutter quiz app that lets users pick categories, choose quiz length and difficulty, answer questions, and get an encouraging, motivational summary at the end.
+A comprehensive quiz application built with Flutter, Firebase Authentication, and Cloud Firestore.
 
-This README describes the app, how to run it, and shows screenshots from the current build.
+## Features
 
-## Key features
+### User Features
+- ✅ Email/Password Authentication
+- ✅ Profile Management
+- ✅ Quiz Categories Selection
+- ✅ Multiple Choice & True/False Questions
+- ✅ 15-second timer per question
+- ✅ Real-time score tracking
+- ✅ Detailed results with answer breakdown
+- ✅ Quiz history tracking
+- ✅ Purple-themed modern UI
 
-- Category-based quizzes with configurable number of questions and difficulty.
-- Immediate feedback for correct and incorrect answers.
-- Summary score screen with a short, highly motivational quote encouraging the player to play again.
-- Clean, responsive UI with SVG assets scaled for different screen sizes.
-- Cross-platform: Android, iOS, macOS, Linux, Windows.
+### Admin Features
+- ✅ Admin dashboard with dark theme
+- ✅ Add new quiz questions
+- ✅ Create user accounts
+- ✅ View all quiz results across users
+- ✅ Searchable and sortable results table
 
-## Files of interest
+## Tech Stack
 
-- `lib/main.dart` — app entrypoint.
-- `lib/screens/` — UI screens (home, categories, quiz, results, config).
-- `assets/images/` — SVG icons used by the UI.
-- `screenshot/android/` — example screenshots used below.
+- **Framework:** Flutter 3.x
+- **State Management:** Provider
+- **Backend:** Firebase
+  - Firebase Authentication
+  - Cloud Firestore
+- **UI:** Material Design 3 with custom purple theme
 
-## Screenshots
+## Prerequisites
 
-<!-- Use a fixed table layout and the width attribute on images so thumbnails stay at a fixed pixel size and don't stretch -->
-<table style="table-layout:fixed; width:660px; margin:0 auto; border-collapse:collapse;">
-  <colgroup>
-    <col style="width:220px;" />
-    <col style="width:220px;" />
-    <col style="width:220px;" />
-  </colgroup>
-  <tr>
-    <td style="padding:8px; vertical-align:top; text-align:center;">
-      <img src="screenshot/android/home.png" alt="Home" style="width:220px!important; max-width:220px!important; height:auto!important; display:block; margin:0 auto; border-radius:6px;" />
-      <div style="font-size:13px;color:#444;margin-top:6px;">Home</div>
-    </td>
-    <td style="padding:8px; vertical-align:top; text-align:center;">
-      <img src="screenshot/android/categories.png" alt="Categories" style="width:220px!important; max-width:220px!important; height:auto!important; display:block; margin:0 auto; border-radius:6px;" />
-      <div style="font-size:13px;color:#444;margin-top:6px;">Categories</div>
-    </td>
-    <td style="padding:8px; vertical-align:top; text-align:center;">
-      <img src="screenshot/android/quiz_configure1.png" alt="Quiz configure 1" style="width:220px!important; max-width:220px!important; height:auto!important; display:block; margin:0 auto; border-radius:6px;" />
-      <div style="font-size:13px;color:#444;margin-top:6px;">Quiz configuration (1)</div>
-    </td>
-  </tr>
-  <tr>
-    <td style="padding:8px; vertical-align:top; text-align:center;">
-      <img src="screenshot/android/quiz_configure2.png" alt="Quiz configure 2" style="width:220px!important; max-width:220px!important; height:auto!important; display:block; margin:0 auto; border-radius:6px;" />
-      <div style="font-size:13px;color:#444;margin-top:6px;">Quiz configuration (2)</div>
-    </td>
-    <td style="padding:8px; vertical-align:top; text-align:center;">
-      <img src="screenshot/android/correct_answer.png" alt="Correct answer" style="width:220px!important; max-width:220px!important; height:auto!important; display:block; margin:0 auto; border-radius:6px;" />
-      <div style="font-size:13px;color:#444;margin-top:6px;">Correct answer</div>
-    </td>
-    <td style="padding:8px; vertical-align:top; text-align:center;">
-      <img src="screenshot/android/wrong_answer.png" alt="Wrong answer" style="width:220px!important; max-width:220px!important; height:auto!important; display:block; margin:0 auto; border-radius:6px;" />
-      <div style="font-size:13px;color:#444;margin-top:6px;">Wrong answer</div>
-    </td>
-  </tr>
-  <tr>
-    <td style="padding:8px; vertical-align:top; text-align:center;">
-      <img src="screenshot/android/score_excellent.png" alt="Score excellent" style="width:220px!important; max-width:220px!important; height:auto!important; display:block; margin:0 auto; border-radius:6px;" />
-      <div style="font-size:13px;color:#444;margin-top:6px;">Score — Excellent</div>
-    </td>
-    <td style="padding:8px; vertical-align:top; text-align:center;">
-      <img src="screenshot/android/score_notbad.png" alt="Score not bad" style="width:220px!important; max-width:220px!important; height:auto!important; display:block; margin:0 auto; border-radius:6px;" />
-      <div style="font-size:13px;color:#444;margin-top:6px;">Score — Not bad</div>
-    </td>
-    <td style="padding:8px; vertical-align:top; text-align:center;">
-      <img src="screenshot/android/score_keeptrying.png" alt="Score keep trying" style="width:220px!important; max-width:220px!important; height:auto!important; display:block; margin:0 auto; border-radius:6px;" />
-      <div style="font-size:13px;color:#444;margin-top:6px;">Score — Keep trying</div>
-    </td>
-  </tr>
-</table>
+1. Flutter SDK (3.0 or higher)
+2. Firebase Project
+3. Android Studio / VS Code
+4. Git
 
-> Note: If images do not display in your environment (for example some Git hosts require special handling), open the referenced files directly under `screenshot/android/`.
+## Setup Instructions
+
+### 1. Clone the Repository
+
+```bash
+git clone <your-repo-url>
+cd Quizzical
+```
+
+### 2. Install Dependencies
+
+```bash
+flutter pub get
+```
+
+### 3. Firebase Setup
+
+#### Option A: Using FlutterFire CLI (Recommended)
+
+```bash
+# Install FlutterFire CLI
+dart pub global activate flutterfire_cli
+
+# Configure Firebase
+flutterfire configure
+```
+
+This will automatically create `firebase_options.dart` with your Firebase configuration.
+
+#### Option B: Manual Configuration
+
+1. Go to [Firebase Console](https://console.firebase.google.com/)
+2. Create a new project or use an existing one
+3. Add Android/iOS/Web apps
+4. Download configuration files:
+   - Android: `google-services.json` → `android/app/`
+   - iOS: `GoogleService-Info.plist` → `ios/Runner/`
+5. Update `lib/firebase_options.dart` with your project credentials
+
+### 4. Firebase Console Configuration
+
+#### Enable Authentication
+1. Go to Firebase Console → Authentication
+2. Enable **Email/Password** sign-in method
+
+#### Setup Firestore Database
+1. Go to Firebase Console → Firestore Database
+2. Click "Create database"
+3. Start in **test mode** (update rules later)
+4. Choose your preferred location
+
+#### Firestore Security Rules
+
+```javascript
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Users collection
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth.uid == userId || 
+                     get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+    
+    // Categories collection
+    match /categories/{categoryId} {
+      allow read: if request.auth != null;
+      allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+    
+    // Questions collection
+    match /questions/{questionId} {
+      allow read: if request.auth != null;
+      allow write: if get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+    
+    // Results collection
+    match /results/{resultId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow update, delete: if false;
+    }
+  }
+}
+```
+
+### 5. Initialize Sample Data
+
+#### Create Categories
+In Firestore Console, create documents in the `categories` collection:
+
+```javascript
+// Document 1
+{
+  "name": "General Knowledge",
+  "displayOrder": 1
+}
+
+// Document 2
+{
+  "name": "Science & Nature",
+  "displayOrder": 2
+}
+
+// Document 3
+{
+  "name": "History",
+  "displayOrder": 3
+}
+
+// Document 4
+{
+  "name": "Sports",
+  "displayOrder": 4
+}
+
+// Document 5
+{
+  "name": "Geography",
+  "displayOrder": 5
+}
+
+// Document 6
+{
+  "name": "Entertainment",
+  "displayOrder": 6
+}
+```
+
+#### Create Sample Questions
+In Firestore Console, create documents in the `questions` collection:
+
+```javascript
+// Example Multiple Choice Question
+{
+  "category": "General Knowledge",
+  "type": "multiple",
+  "question": "What is the capital of France?",
+  "correct_answer": "Paris",
+  "incorrect_answers": ["London", "Berlin", "Madrid"],
+  "difficulty": "easy"
+}
+
+// Example True/False Question
+{
+  "category": "Science & Nature",
+  "type": "boolean",
+  "question": "The Earth is flat.",
+  "correct_answer": "False",
+  "incorrect_answers": ["True"],
+  "difficulty": "easy"
+}
+```
+
+#### Create Admin User
+1. Run the app and sign up with an email
+2. Go to Firestore Console → `users` collection
+3. Find your user document and add:
+   ```javascript
+   {
+     ...existing fields,
+     "isAdmin": true
+   }
+   ```
+4. Restart the app to see admin features
+
+### 6. Run the Application
+
+```bash
+# Run on connected device/emulator
+flutter run
+
+# Run in debug mode
+flutter run --debug
+
+# Run in release mode
+flutter run --release
+```
+
+## Project Structure
+
+```
+lib/
+├── main.dart                      # App entry point
+├── firebase_options.dart          # Firebase configuration
+├── models/                        # Data models
+│   ├── user_model.dart
+│   ├── category_model.dart
+│   ├── question_model.dart
+│   └── result_model.dart
+├── providers/                     # State management
+│   └── auth_provider.dart
+├── screens/                       # UI screens
+│   ├── auth_screen.dart          # Login/Signup
+│   ├── user_home_screen.dart     # User dashboard
+│   ├── admin_home_screen.dart    # Admin dashboard
+│   ├── new_quiz_screen.dart      # Quiz interface
+│   ├── new_results_screen.dart   # Results display
+│   ├── quiz_history_screen.dart  # Quiz history
+│   ├── profile_screen.dart       # User profile
+│   ├── admin_add_question_screen.dart
+│   ├── admin_add_user_screen.dart
+│   └── admin_results_screen.dart
+└── services/                      # Business logic
+    ├── auth_service.dart         # Authentication
+    └── firestore_service.dart    # Database operations
+```
+
+## Usage
+
+### For Users
+1. **Sign Up/Login:** Create an account or login
+2. **Select Quiz:** Choose category and question type
+3. **Take Quiz:** Answer 10 questions with 15-second timer
+4. **View Results:** See score and detailed breakdown
+5. **Check History:** View all previous quiz attempts
+6. **Edit Profile:** Update your name and account details
+
+### For Admins
+1. **Add Questions:** Create MCQ or True/False questions
+2. **Add Users:** Create user accounts directly
+3. **View Results:** See all quiz results across users
+4. **Manage:** Full CRUD capabilities for quiz content
+
+## Features to Implement (Optional)
+
+- [ ] Question difficulty filtering
+- [ ] Leaderboard system
+- [ ] Quiz sharing
+- [ ] Offline mode
+- [ ] Dark mode toggle for users
+- [ ] Question images/media support
+- [ ] Translation (English ↔ Bangla)
+- [ ] Email verification
+- [ ] Password reset functionality
+- [ ] Social authentication (Google, Facebook)
+- [ ] Analytics dashboard
+- [ ] Export results to PDF/CSV
+
+## Troubleshooting
+
+### Firebase Connection Issues
+- Verify `google-services.json` (Android) or `GoogleService-Info.plist` (iOS) is in the correct location
+- Check Firebase project settings match your app package name
+- Ensure internet connection is available
+
+### Build Errors
+```bash
+# Clean build
+flutter clean
+flutter pub get
+flutter run
+```
+
+### Authentication Errors
+- Check Firebase Authentication is enabled
+- Verify email/password sign-in method is activated
+- Check security rules in Firestore
 
 ## Contributing
 
-Contributions are welcome. Open an issue or submit a pull request for bug fixes, UI improvements, or additional features (more categories, question sources, analytics, etc.).
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
 
 ## License
 
-This project does not include a license file. Add a `LICENSE` if you intend to publish or share the app under a specific license.
+This project is created for educational purposes.
+
+## Contact
+
+For questions or support, please contact the development team.
+
+---
+
+**Built with ❤️ using Flutter & Firebase**
+
