@@ -13,10 +13,10 @@ import 'screens/admin_home_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // Initialize Firebase - TEMPORARILY DISABLED FOR TESTING
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -48,7 +48,12 @@ class Quizzee extends StatelessWidget {
           ),
           fontFamily: 'Roboto',
         ),
-        home: const AuthWrapper(),
+        // TEMPORARILY BYPASS AUTHENTICATION FOR TESTING
+        home: const UserHomeScreen(),
+        // Uncomment below to test admin screen instead:
+        // home: const AdminHomeScreen(),
+        // Original with authentication:
+        // home: const AuthWrapper(),
       ),
     );
   }

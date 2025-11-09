@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "159763695242",
+    "project_id": "quizzical-5b099",
+    "storage_bucket": "quizzical-5b099.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:159763695242:android:3475bb7c945786f9458f73",
+        "android_client_info": {
+          "package_name": "com.example.quizzical"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAFKhofRH8zgGJJ4HqXurukMOkdC5Ib0U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
